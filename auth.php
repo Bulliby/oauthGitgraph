@@ -11,6 +11,7 @@ class Github
     private $client_id;
     private $redirect_uri;
     private $client;
+    private $token;
 
     public function __construct($client_id, $client_secret, $redirect_uri)
     {
@@ -30,7 +31,7 @@ class Github
 
     public function getGithubToken() 
     {
-        $token = $this->client->request('POST', 'https://github.com/login/oauth/access_token', [
+        $response = $this->client->request('POST', 'https://github.com/login/oauth/access_token', [
             'form_params' => [
             'client_id' => $this->client_id,
             'client_secret' => $this->client_secret,
@@ -41,12 +42,21 @@ class Github
                 'Accept'     => 'application/json',
             ]
         ]);
+        
+        $this->token = $response->getBody();
+    }
 
-        var_dump(json_decode($token->getBody()));
+    public function getToken()
+    {
+        return $this->token;
     }
 }
+
 $dotenv = Dotenv\Dotenv::create(__DIR__);
 $dotenv->load();
 
-$git = new Github('3c47a9a8faf9b82f5634', getenv('CLIENT_SECRET'), 'http://oauth/auth.php');
+$git = new Github('3c47a9a8faf9b82f5634', getenv('CLIENT_SECRET'), 'http://gitgraph/github-auth');
 $git->getGithubToken();
+
+
+echo $git->getToken();
