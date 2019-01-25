@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 class Github
 {
     private $code;
+    private $state;
     private $client_secret;
     private $client_id;
     private $redirect_uri;
@@ -15,10 +16,11 @@ class Github
 
     public function __construct($client_id, $client_secret, $redirect_uri)
     {
-        if (!isset($_GET['code']))
-            throw new \Exception('The code must be provided by query string $_GET["code"]');
+        if (!isset($_GET['code']) || !isset($_GET['state']))
+            throw new \Exception('The code or state must be provided by query string $_GET["code"]');
 
         $this->code = $_GET['code'];
+        $this->state = $_GET['state'];
         $this->client_id = $client_id;
         $this->redirect_uri = $redirect_uri; 
         $this->client_secret = $client_secret;
@@ -36,6 +38,7 @@ class Github
             'client_id' => $this->client_id,
             'client_secret' => $this->client_secret,
             'redirect_uri' => $this->redirect_uri,
+            'state' => $this->state,
             'code' => $this->code
             ],
             'headers' => [
