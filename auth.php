@@ -55,7 +55,7 @@ class Github
 $dotenv = Dotenv\Dotenv::create(__DIR__);
 $dotenv->load();
 
-$git = new Github('3c47a9a8faf9b82f5634', getenv('CLIENT_SECRET'), 'http://gitgraph/github-auth');
+$git = new Github('3c47a9a8faf9b82f5634', getenv('CLIENT_SECRET'), 'http://gitgraph');
 $git->getGithubToken();
 
 
