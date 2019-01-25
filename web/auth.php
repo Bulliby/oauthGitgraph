@@ -1,6 +1,6 @@
 <?php
 
-require 'vendor/autoload.php';
+require '../vendor/autoload.php';
 
 use GuzzleHttp\Client;
 
@@ -55,10 +55,10 @@ class Github
     }
 }
 
-$dotenv = Dotenv\Dotenv::create(__DIR__);
+$dotenv = Dotenv\Dotenv::create(__DIR__ . '/..');
 $dotenv->load();
 
-$git = new Github('3c47a9a8faf9b82f5634', getenv('CLIENT_SECRET'), 'http://gitgraph.wellsguillaume.fr');
+$git = new Github('3c47a9a8faf9b82f5634', getenv('CLIENT_SECRET'), 'https://gitgraph.wellsguillaume.fr');
 $git->getGithubToken();
 
 
