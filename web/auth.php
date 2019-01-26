@@ -16,13 +16,13 @@ class Github
 
     public function __construct($client_id, $client_secret, $redirect_uri)
     {
-        if (!isset($_GET['code']) || !isset($_GET['state']))
-            throw new \Exception('The code or state must be provided by query string $_GET["code"]');
+        if (!isset($_GET['code']) || !isset($_GET['state'] || !isset($_GET['env'])))
+            throw new \Exception('Some query paramters are missing');
 
         $this->code = $_GET['code'];
         $this->state = $_GET['state'];
+        $this->redirect_uri = ($_GET['env'] == 'development') ? getenv('DEV_GIT_GRAPH_URL') : getenv('PROD_GIT_GRAPH_URL'); 
         $this->client_id = $client_id;
-        $this->redirect_uri = $redirect_uri; 
         $this->client_secret = $client_secret;
 
         if ($this->client_secret == false)
@@ -58,7 +58,7 @@ class Github
 $dotenv = Dotenv\Dotenv::create(__DIR__ . '/..');
 $dotenv->load();
 
-$git = new Github('3c47a9a8faf9b82f5634', getenv('CLIENT_SECRET'), 'https://gitgraph.wellsguillaume.fr');
+$git = new Github('3c47a9a8faf9b82f5634', getenv('CLIENT_SECRET'));
 $git->getGithubToken();
 
 
