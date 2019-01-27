@@ -14,16 +14,16 @@ class Github
     private $client;
     private $token;
 
-    public function __construct($client_id, $client_secret, $redirect_uri)
+    public function __construct()
     {
-        if (!isset($_GET['code']) || !isset($_GET['state'] || !isset($_GET['env'])))
+        if (!isset($_GET['code']) || !isset($_GET['state']) || !isset($_GET['env']))
             throw new \Exception('Some query paramters are missing');
 
         $this->code = $_GET['code'];
         $this->state = $_GET['state'];
         $this->redirect_uri = ($_GET['env'] == 'development') ? getenv('DEV_GIT_GRAPH_URL') : getenv('PROD_GIT_GRAPH_URL'); 
-        $this->client_id = $client_id;
-        $this->client_secret = $client_secret;
+        $this->client_id = ($_GET['env'] == 'development') ? getenv('DEV_CLIENT_ID') : getenv('PROD_CLIENT_ID'); 
+        $this->client_secret = ($_GET['env'] == 'development') ? getenv('DEV_CLIENT_SECRET') : getenv('PROD_CLIENT_SECRET'); 
 
         if ($this->client_secret == false)
             throw new \Exception("The var env CLIENT_SECRET is not set");
@@ -58,7 +58,7 @@ class Github
 $dotenv = Dotenv\Dotenv::create(__DIR__ . '/..');
 $dotenv->load();
 
-$git = new Github('3c47a9a8faf9b82f5634', getenv('CLIENT_SECRET'));
+$git = new Github();
 $git->getGithubToken();
 
 
