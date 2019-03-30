@@ -25,6 +25,8 @@ class Github
         $this->client_id = ($_GET['env'] == 'development') ? getenv('DEV_CLIENT_ID') : getenv('PROD_CLIENT_ID'); 
         $this->client_secret = ($_GET['env'] == 'development') ? getenv('DEV_CLIENT_SECRET') : getenv('PROD_CLIENT_SECRET'); 
 
+        //TODO: make no sesnse?
+        //$dotenv->required('DATABASE_DSN')->notEmpty();
         if ($this->client_secret == false)
             throw new \Exception("The var env CLIENT_SECRET is not set");
 
