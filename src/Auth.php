@@ -67,6 +67,9 @@ class Auth
             ],
         ]);
 
-        return $response->getBody();
+        $response = json_decode($response->getBody());
+        header('Access-Control-Allow-Credentials: true');
+        header('Access-Control-Allow-Origin: http://client.gitgraph.com');
+        header('Set-Cookie: oauth='.$response->access_token.'; SameSite=Lax; Domain=.gitgraph.com');
     }
 }
