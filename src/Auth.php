@@ -36,7 +36,7 @@ class Auth
             throw new OauthGithubException('Can\'t read data from request');
         }
 
-        //depth to 2 because we don't need more/
+        //depth to 2 because we don't need more
         $json = json_decode($json, true, 2);
 
         if (is_null($json)) {
@@ -59,17 +59,22 @@ class Auth
             'client_id' => $_ENV['CLIENT_ID'],
             'client_secret' => $_ENV['CLIENT_SECRET'],
             'redirect_uri' => $_ENV['CALLBACK_URL'],
-            'state' => $this->json['state'],
             'code' => $this->json['code'],
+            'state' => $this->json['state'],
             ],
             'headers' => [
                 'Accept'     => 'application/json',
             ],
         ]);
 
-        $response = json_decode($response->getBody());
-        header('Access-Control-Allow-Credentials: true');
+        $responseToken = json_decode($response->getBody());
+        setcookie('oauth', $responseToken->access_token, time()+24*3600, "/", "gitgraph.com");
+
+        $response = $this->client->request('GET', 'https://api.github.com/user', ['auth' => [null, $responseToken->access_token]]);
+        $responseToken = json_decode($response->getBody());
+        setcookie('name', $responseToken->login, time()+24*3600, "/", "gitgraph.com");
+
         header('Access-Control-Allow-Origin: http://client.gitgraph.com');
-        header('Set-Cookie: oauth='.$response->access_token.'; SameSite=Lax; Domain=.gitgraph.com');
+        header('Access-Control-Allow-Credentials: true');
     }
 }
