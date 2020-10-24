@@ -75,6 +75,7 @@ class Auth
         setcookie('name', $responseToken->login, time()+24*3600, "/", "gitgraph.com");
 
         header('Access-Control-Allow-Origin: http://client.gitgraph.com');
+        header('Access-Control-Allow-Headers: Content-Type');
         header('Access-Control-Allow-Credentials: true');
     }
 }
