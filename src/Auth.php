@@ -68,14 +68,13 @@ class Auth
         ]);
 
         $responseToken = json_decode($response->getBody());
-        setcookie('oauth', $responseToken->access_token, time()+24*3600, "/", "gitgraph.com");
+        //TODO configure
+        setcookie('oauth', $responseToken->access_token, time()+24*3600, "/", "gitgraph.wellsguillaume.fr");
 
         $response = $this->client->request('GET', 'https://api.github.com/user', ['auth' => [null, $responseToken->access_token]]);
         $responseToken = json_decode($response->getBody());
-        setcookie('name', $responseToken->login, time()+24*3600, "/", "gitgraph.com");
+        //TODO configure
+        setcookie('name', $responseToken->login, time()+24*3600, "/", "gitgraph.wellsguillaume.fr");
 
-        header('Access-Control-Allow-Origin: http://client.gitgraph.com');
-        header('Access-Control-Allow-Headers: Content-Type');
-        header('Access-Control-Allow-Credentials: true');
     }
 }
