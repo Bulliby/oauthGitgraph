@@ -3,9 +3,17 @@
 require('../vendor/autoload.php');
 
 use Oauth\Auth;
+use Oauth\Exceptions\OauthGithubException;
 
-#TODO configurable
-header('Access-Control-Allow-Origin: https://client.gitgraph.wellsguillaume.fr');
+if (
+    !isset($_ENV['CLIENT_ID']) ||
+    !isset($_ENV['CLIENT_SECRET'])  ||
+    !isset($_ENV['CALLBACK_URL'])
+) {
+    throw new OauthGithubException('Some ENV parameters are missing from your Docker run');
+}
+
+header('Access-Control-Allow-Origin: ' . $_ENV['CALLBACK_URL']);
 header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Allow-Headers: Content-Type');
 

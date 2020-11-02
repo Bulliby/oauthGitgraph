@@ -3,7 +3,6 @@
 namespace Oauth;
 
 use GuzzleHttp\Client;
-use Oauth\Exceptions\OauthGithubException;
 
 class Auth
 {
@@ -12,14 +11,6 @@ class Auth
 
     public function __construct()
     {
-
-        if (
-            !isset($_ENV['CLIENT_ID']) ||
-            !isset($_ENV['CLIENT_SECRET'])  ||
-            !isset($_ENV['CALLBACK_URL'])
-        ) {
-            throw new OauthGithubException('Some ENV parameters are missing from your Docker run');
-        }
 
         /**
          * The Content-Type of axios request is application/json and
@@ -67,14 +58,13 @@ class Auth
             ],
         ]);
 
+        $url = parse_url($_ENV['CALLBACK_URL']);
         $responseToken = json_decode($response->getBody());
-        //TODO configure
-        setcookie('oauth', $responseToken->access_token, time()+24*3600, "/", "gitgraph.wellsguillaume.fr");
+        setcookie('oauth', $responseToken->access_token, time()+24*3600, "/", strstr($url['host'], '.'));
 
         $response = $this->client->request('GET', 'https://api.github.com/user', ['auth' => [null, $responseToken->access_token]]);
         $responseToken = json_decode($response->getBody());
-        //TODO configure
-        setcookie('name', $responseToken->login, time()+24*3600, "/", "gitgraph.wellsguillaume.fr");
+        setcookie('name', $responseToken->login, time()+24*3600, "/", strstr($url['host'], '.'));
 
     }
 }
