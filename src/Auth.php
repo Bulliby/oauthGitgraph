@@ -3,6 +3,7 @@
 namespace Oauth;
 
 use GuzzleHttp\Client;
+use Oauth\Exceptions\OauthGithubException;
 
 class Auth
 {
