@@ -47,11 +47,11 @@ class Auth
     {
          $response = $this->client->request('POST', 'https://github.com/login/oauth/access_token', [
             'form_params' => [
-            'client_id' => $_ENV['CLIENT_ID'],
-            'client_secret' => $_ENV['CLIENT_SECRET'],
-            'redirect_uri' => $_ENV['CALLBACK_URL'],
-            'code' => $this->json['code'],
-            'state' => $this->json['state'],
+                'client_id' => $_ENV['CLIENT_ID'],
+                'client_secret' => $_ENV['CLIENT_SECRET'],
+                'redirect_uri' => $_ENV['CALLBACK_URL'],
+                'code' => $this->json['code'],
+                'state' => $this->json['state'],
             ],
             'headers' => [
                 'Accept'     => 'application/json',

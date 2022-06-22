@@ -1,11 +1,25 @@
-# oauthGitgraph
+# OAuth Gitgraph
 
-Authenticate you to you Github without exposing your secret credentials.
+OAuth Gitgraph permit to connect you with **OAuth** to the **Github API**.
 
-**PHP** application who act like a proxy between a SPA application and permit Github authentication.
+## How create your OAuth Apps
 
-You can find a docker of this app here : [docker](https://hub.docker.com/r/waxer/oauth_github).
+`Your github profile > Settings > Developer settings > OAuth Apps > New OAuth App`
 
-# Front-end
+## Environment
 
-You can find a front-end at [gitgraph](https://github.com/Bulliby/GitGraph).
+This application read 3 **ENV** variables :
+
+```php
+    $_ENV['CLIENT_ID'];
+    $_ENV['CLIENT_SECRET'];
+    $_ENV['CALLBACK_URL'];
+```
+
+## Cookies
+
+This application set two cookies `name` and `token` which authenticate you with the **Github Api**. The domain chosen for the cookies is the one of `$_ENV['CALLBACK_URL']`
+
+## Docker
+
+I created a docker **php81**who permit to run a server who server this application.
