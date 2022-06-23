@@ -9,6 +9,9 @@ class Auth
 {
     private $client;
     private $json;
+    
+    //31 days
+    const COOKIES_EXPIRATION=2678400;
 
     public function __construct()
     {
@@ -61,11 +64,11 @@ class Auth
 
         $url = parse_url($_ENV['CALLBACK_URL']);
         $responseToken = json_decode($response->getBody());
-        setcookie('oauth', $responseToken->access_token, time()+24*3600, "/", strstr($url['host'], '.'));
+        setcookie('oauth', $responseToken->access_token, time()+self::COOKIES_EXPIRATION, "/", strstr($url['host'], '.'));
 
         $response = $this->client->request('GET', 'https://api.github.com/user', ['auth' => [null, $responseToken->access_token]]);
         $responseToken = json_decode($response->getBody());
-        setcookie('name', $responseToken->login, time()+24*3600, "/", strstr($url['host'], '.'));
+        setcookie('name', $responseToken->login, time()+self::COOKIES_EXPIRATION, "/", strstr($url['host'], '.'));
 
     }
 }
