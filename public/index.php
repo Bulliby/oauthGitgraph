@@ -13,7 +13,6 @@ if (
     throw new OauthGithubException('Some ENV parameters are missing from your Docker run');
 }
 
-header('Access-Control-Allow-Origin: ' . $_ENV['CALLBACK_URL']);
 header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Allow-Headers: Content-Type');
 
