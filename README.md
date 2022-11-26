@@ -16,7 +16,7 @@ This application read 3 **ENV** variables :
     $_ENV['CALLBACK_URL'];
 ```
 
-Used in accordance with this [docker](https://github.com/Bulliby/docker/blob/master/oauthGithub/README.md)
+Used in accordance with this [docker](https://github.com/Bulliby/docker/tree/master/gitgraph)
 
 ## Cookies
 
