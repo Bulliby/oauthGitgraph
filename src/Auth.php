@@ -51,9 +51,9 @@ class Auth
     {
          $response = $this->client->request('POST', 'https://github.com/login/oauth/access_token', [
             'form_params' => [
-                'client_id' => $_ENV['CLIENT_ID'],
-                'client_secret' => $_ENV['CLIENT_SECRET'],
-                'redirect_uri' => $_ENV['CALLBACK_URL'],
+                'client_id' => $_SERVER['CLIENT_ID'],
+                'client_secret' => $_SERVER['CLIENT_SECRET'],
+                'redirect_uri' => $_SERVER['CALLBACK_URL'],
                 'code' => $this->json['code'],
                 'state' => $this->json['state'],
             ],
@@ -62,7 +62,7 @@ class Auth
             ],
         ]);
 
-        $url = parse_url($_ENV['CALLBACK_URL']);
+        $url = parse_url($_SERVER['CALLBACK_URL']);
         $cookieOptions = ['expires' => time()+self::COOKIES_EXPIRATION, 'path' => "/", 'domain' => strstr($url['host'], '.'), 'samesite' => 'Strict', 'secure' => true];
 
         $responseToken = json_decode($response->getBody());
