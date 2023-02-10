@@ -8,16 +8,16 @@ OAuth Gitgraph permit to connect you with **OAuth** to the **Github API**.
 
 ## Environment variables
 
-This application read 3 **ENV** variables :
+This application read 3 **SERVER** variables :
 
 ```php
-    $_ENV['CLIENT_ID'];
-    $_ENV['CLIENT_SECRET'];
-    $_ENV['CALLBACK_URL'];
+    $_SERVER['CLIENT_ID'];
+    $_SERVER['CLIENT_SECRET'];
+    $_SERVER['CALLBACK_URL'];
 ```
 
 Used in accordance with this [docker](https://github.com/Bulliby/docker/tree/master/gitgraph)
 
 ## Cookies
 
-This application set two cookies `name` and `token` which authenticate you with the **Github Api**. The domain chosen for the cookies is the one of `$_ENV['CALLBACK_URL']`
+This application set two cookies `name` and `token` which authenticate you with the **Github Api**. The domain chosen for the cookies is the one of `$_SERVER['CALLBACK_URL']`
