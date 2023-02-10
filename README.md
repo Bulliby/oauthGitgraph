@@ -16,8 +16,6 @@ This application read 3 **SERVER** variables :
     $_SERVER['CALLBACK_URL'];
 ```
 
-Used in accordance with this [docker](https://github.com/Bulliby/docker/tree/master/gitgraph)
-
 ## Cookies
 
 This application set two cookies `name` and `token` which authenticate you with the **Github Api**. The domain chosen for the cookies is the one of `$_SERVER['CALLBACK_URL']`
