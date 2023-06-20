@@ -64,13 +64,16 @@ class Auth
 
         $url = parse_url($_SERVER['CALLBACK_URL']);
         $cookieOptions = ['expires' => time()+self::COOKIES_EXPIRATION, 'path' => "/", 'domain' => strstr($url['host'], '.'), 'samesite' => 'Strict', 'secure' => true];
-
         $responseToken = json_decode($response->getBody());
+
+        if (!in_array('access_token', array_keys((array)$responseToken))) {
+            return http_response_code(403);
+        }
+
         setcookie('oauth', $responseToken->access_token, $cookieOptions);
 
         $response = $this->client->request('GET', 'https://api.github.com/user', ['auth' => [null, $responseToken->access_token]]);
         $responseToken = json_decode($response->getBody());
         setcookie('name', $responseToken->login, $cookieOptions);
-
     }
 }
